@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <p>Generation Analysis</p>
-    <generation-list :data='data' :chartData='chartData'></generation-list>
+    <!-- <generation-list :data='data' :chartData='chartData'></generation-list> -->
     <generation-chart :cData='chartData'></generation-chart>
   </div>
 </template>
