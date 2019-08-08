@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <p>Generation Analysis</p>
-    <generation-list :data='data'></generation-list>
-    <generation-chart></generation-chart>
+    <generation-list :data='data' :chartData='chartData'></generation-list>
+    <generation-chart :cData='chartData'></generation-chart>
   </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
   name: 'app',
   data(){
     return {
-      data: []
+      data: [],
+      chartData: []
     };
   },
   components: {
@@ -23,19 +24,27 @@ export default {
     "generation-list": GenerationList,
     "generation-chart": GenerationChart
   },
-
+  methods: {
+    getChartFormat: function(data){
+      let x = data.data.generationmix;
+      let y = x.map(item => [item.fuel, item.perc]);
+      y.unshift(["Fuel","Percentage"]);
+      return y;
+    }
+  },
 mounted(){
   fetch('https://api.carbonintensity.org.uk/generation')
   .then(res => res.json())
   .then(data => this.data = data)
-}
-// ,
-// methods(){
-//
-// }
-}
+  .then(data2 => {
+    this.chartData = this.getChartFormat(this.data);
+  });
 
 
+
+}
+
+}
 
 </script>
 
